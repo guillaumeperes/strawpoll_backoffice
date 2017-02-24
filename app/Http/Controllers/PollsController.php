@@ -10,7 +10,10 @@ class PollsController extends Controller
     public function index(Request $request)
     {
     	$checks = DuplicationCheck::orderBy('label', 'ASC')->get();
-    	$out = $checks->toArray();
-    	return response()->json($out);
+    	$data = $checks->toArray();
+    	$response = response()->json($data, 200, array(), JSON_UNESCAPED_UNICODE);
+    	$response->header('Content-Type', 'application/json');
+    	$response->header('charset', 'utf-8');
+    	return $response;
     }
 }
