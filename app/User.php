@@ -9,6 +9,12 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const CREATED_AT = 'created';
+
+    const UPDATED_AT = 'updated';
+
+    protected $table = 'users';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,4 +32,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function polls()
+    {
+        return $this->hasMany('App\Poll', 'users_id');
+    }
 }
