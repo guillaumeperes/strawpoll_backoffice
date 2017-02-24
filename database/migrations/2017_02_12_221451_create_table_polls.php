@@ -20,6 +20,8 @@ class CreateTablePolls extends Migration
                 $table->integer('duplication_checks_id');
                 $table->boolean('has_captcha');
                 $table->boolean('multiple_answers')->default(false);
+                $table->integer('users_id')->nullable();
+                $table->boolean('is_draft')->default(false);
                 $table->timestampTz('created')->default(DB::raw('CURRENT_TIMESTAMP'));
                 $table->timestampTz('updated')->nullable();
                 $table->timestampTz('published')->nullable();
@@ -28,7 +30,13 @@ class CreateTablePolls extends Migration
                 $table->foreign('duplication_checks_id')
                     ->references('id')
                     ->on('duplication_checks')
-                    ->onDelete('cascade')
+                    ->onDelete('no action')
+                    ->onUpdate('cascade');
+
+                $table->foreign('users_id')
+                    ->references('id')
+                    ->on('users')
+                    ->onDelete('set null')
                     ->onUpdate('cascade');
             });
         }
