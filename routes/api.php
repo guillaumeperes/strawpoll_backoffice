@@ -14,10 +14,10 @@ use App\Http\Middleware\CheckPollExists;
 |
 */
 
-Route::get('/duplicationchecks', 'PollsController@index')
-    ->name('home');
+Route::get('/duplicationchecks/', 'PollsController@duplicationChecks')
+    ->name('duplicationchecks');
 
-Route::post('/', 'PollsController@create')
+Route::post('/poll/', 'PollsController@create')
     ->name('create');
 
 Route::get('/poll/{poll_id}/', 'PollsController@poll')
@@ -25,12 +25,12 @@ Route::get('/poll/{poll_id}/', 'PollsController@poll')
     ->middleware(CheckPollExists::class)
     ->name('poll');
 
-Route::post('/poll/{poll_id}/', 'ResponseController@respond')
+Route::post('/poll/{poll_id}/answers/', 'ResponseController@respond')
     ->where(array('poll_id' => '[1-9][0-9]*'))
     ->middleware(CheckPollExists::class)
     ->name('respond');
 
-Route::get('/poll/{poll_id}/r/', 'ResponseController@view')
+Route::get('/poll/{poll_id}/answers/', 'ResponseController@answers')
     ->where(array('poll_id' => '[1-9][0-9]*'))
     ->middleware(CheckPollExists::class)
-    ->name('view');
+    ->name('answers');

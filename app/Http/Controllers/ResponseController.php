@@ -11,7 +11,7 @@ class ResponseController extends Controller
 
     }
 
-    public function view(Request $request)
+    public function answers(Request $request)
     {   
         
     }

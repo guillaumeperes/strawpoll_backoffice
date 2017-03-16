@@ -21,3 +21,21 @@ Une requête en GET sur cette route retournera la liste des méthodes prises en 
   ]
 }
 ```
+
+## Routes en développement
+
+**POST** http://strawpoll.guillaumeperes.fr/api/poll/
+
+Permettra de créer un sondage.
+
+**GET** http://strawpoll.guillaumeperes.fr/poll/{poll_id}/
+
+Permettra de retrouver les données du sondage identifié par {poll_id}.
+
+**POST** http://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+
+Permettra d'ajouter des votes au sondage identifié par {poll_id}.
+
+**GET** http://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+
+Permettra de récupérer les votes du sondage identifié par {poll_id}.
