@@ -14,7 +14,7 @@ use App\Http\Middleware\CheckPollExists;
 |
 */
 
-Route::get('/', 'PollsController@index')
+Route::get('/duplicationchecks', 'PollsController@index')
     ->name('home');
 
 Route::post('/', 'PollsController@create')

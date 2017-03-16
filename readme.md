@@ -6,7 +6,7 @@ Ceci est le backoffice de l'application du Strawpoll réalisée par Adam Attafi,
 
 ## Routes
 
-**GET** http://strawpoll.guillaumeperes.fr/api/
+**GET** http://strawpoll.guillaumeperes.fr/api/duplicationchecks
 
 Une requête en GET sur cette route retournera la liste des méthodes prises en charge par l'api pour contrôler le fait qu'un utilisateur puisse ou non voter plusieurs fois à un sondage. Retourne un objet JSON sous la forme : 
 
