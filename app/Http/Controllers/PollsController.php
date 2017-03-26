@@ -12,7 +12,10 @@ class PollsController extends Controller
         $checks = DuplicationCheck::orderBy('label', 'ASC')->get();
         $checksArr = $checks->toArray();
         $data = array('duplication_checks' => $checksArr);
-        $response = response()->json($data, 200, array(), JSON_UNESCAPED_UNICODE);
+        $headers = array(
+            'Content-Type' => 'application/json; charset=utf-8',
+        );
+        $response = response()->json($data, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
     }
 
