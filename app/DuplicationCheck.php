@@ -14,4 +14,12 @@ class DuplicationCheck extends Model
     {
         return $this->hasMany('App\Polls', 'duplication_checks_id');
     }
+
+    public static function listAllToArray()
+    {
+    	$checks = self::orderBy('label', 'ASC')->get();
+    	$checksArr = $checks->toArray();
+    	$data = array('duplication_checks' => $checksArr);
+    	return $data;
+    }
 }

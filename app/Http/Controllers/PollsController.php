@@ -9,13 +9,11 @@ class PollsController extends Controller
 {
     public function duplicationChecks(Request $request)
     {
-        $checks = DuplicationCheck::orderBy('label', 'ASC')->get();
-        $checksArr = $checks->toArray();
-        $data = array('duplication_checks' => $checksArr);
+        $checks = DuplicationCheck::listAllToArray();
         $headers = array(
             'Content-Type' => 'application/json; charset=utf-8',
         );
-        $response = response()->json($data, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        $response = response()->json($checks, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
     }
 
