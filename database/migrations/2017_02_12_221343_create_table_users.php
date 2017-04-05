@@ -18,8 +18,8 @@ class CreateTableUsers extends Migration
                 $table->increments('id');
                 $table->string('username')->unique();
                 $table->string('password');
-                $table->timestampTz('created')->default(DB::raw('CURRENT_TIMESTAMP'));
-                $table->timestampTz('updated')->nullable();
+                $table->timestamp('created')->default(DB::raw('now()'));
+                $table->timestamp('updated')->nullable();
             });
         }
     }

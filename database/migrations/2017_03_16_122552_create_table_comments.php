@@ -19,7 +19,7 @@ class CreateTableComments extends Migration
                 $table->integer('users_id');
                 $table->integer('polls_id');
                 $table->text('comment');
-                $table->timestampTz('published')->default(DB::raw('now()'));
+                $table->timestamp('published')->default(DB::raw('now()'));
 
                 $table->foreign('users_id')
                     ->references('id')

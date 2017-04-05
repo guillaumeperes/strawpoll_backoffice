@@ -22,9 +22,9 @@ class CreateTablePolls extends Migration
                 $table->boolean('multiple_answers')->default(false);
                 $table->integer('users_id')->nullable();
                 $table->boolean('is_draft')->default(false);
-                $table->timestampTz('created')->default(DB::raw('CURRENT_TIMESTAMP'));
-                $table->timestampTz('updated')->nullable();
-                $table->timestampTz('published')->nullable();
+                $table->timestamp('created')->default(DB::raw('now()'));
+                $table->timestamp('updated')->nullable();
+                $table->timestamp('published')->nullable();
 
                 // Constraints
                 $table->foreign('duplication_checks_id')
