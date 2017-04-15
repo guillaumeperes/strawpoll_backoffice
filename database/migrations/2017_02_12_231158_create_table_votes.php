@@ -17,18 +17,11 @@ class CreateTableVotes extends Migration
             Schema::create('votes', function(Blueprint $table) {
                 // Columns
                 $table->increments('id');
-                $table->integer('polls_id');
                 $table->integer('answers_id');
                 $table->ipAddress('ip');
                 $table->string('cookie');
 
                 // Constraints
-                $table->foreign('polls_id')
-                    ->references('id')
-                    ->on('polls')
-                    ->onDelete('cascade')
-                    ->onUpdate('cascade');
-                
                 $table->foreign('answers_id')
                     ->references('id')
                     ->on('answers')
