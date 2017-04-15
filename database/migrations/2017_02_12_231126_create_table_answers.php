@@ -19,6 +19,7 @@ class CreateTableAnswers extends Migration
                 $table->increments('id');
                 $table->integer('polls_id');
                 $table->text('answer');
+                $table->integer('position')->default('0');
 
                 // Constraints
                 $table->foreign('polls_id')
