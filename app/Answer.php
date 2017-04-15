@@ -10,9 +10,9 @@ class Answer extends Model
 
     protected $table = 'answers';
 
-    public function poll()
+    public function question()
     {
-        return $this->belongsTo('App\Poll', 'polls_id');
+        return $this->belongsTo('App\Question', 'questions_id');
     }
 
     public function votes()

@@ -17,14 +17,14 @@ class CreateTableAnswers extends Migration
             Schema::create('answers', function(Blueprint $table) {
                 // Columns
                 $table->increments('id');
-                $table->integer('polls_id');
+                $table->integer('questions_id');
                 $table->text('answer');
                 $table->integer('position')->default('0');
 
                 // Constraints
-                $table->foreign('polls_id')
+                $table->foreign('questions_id')
                     ->references('id')
-                    ->on('polls')
+                    ->on('questions')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
             });

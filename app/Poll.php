@@ -22,11 +22,6 @@ class Poll extends Model
         return $this->belongsTo('App\User', 'users_id');
     }
 
-    public function answers()
-    {
-        return $this->hasMany('App\Answer', 'polls_id');
-    }
-
     public function questions()
     {
         return $this->hasMany('App\Question', 'polls_id');

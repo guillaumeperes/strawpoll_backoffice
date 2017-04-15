@@ -14,4 +14,9 @@ class Question extends Model
     {
         return $this->belongsTo('App\Poll', 'polls_id');
     }
+
+    public function answers()
+    {
+    	return $this->hasMany('App\Answer', 'questions_id');
+    }
 }
