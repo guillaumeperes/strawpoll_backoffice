@@ -16,7 +16,7 @@ class CreateTableComments extends Migration
         if (!Schema::hasTable('comments')) {
             Schema::create('comments', function($table) {
                 $table->increments('id');
-                $table->integer('users_id');
+                $table->integer('users_id')->nullable();
                 $table->integer('polls_id');
                 $table->text('comment');
                 $table->timestamp('published')->default(DB::raw('now()'));
