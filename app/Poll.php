@@ -36,4 +36,10 @@ class Poll extends Model
     {
         return $this->hasMany('App\Vote', 'polls_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'polls_id');
+    }
+
 }
