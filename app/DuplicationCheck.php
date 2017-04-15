@@ -17,9 +17,9 @@ class DuplicationCheck extends Model
 
     public static function listAllToArray()
     {
-    	$checks = self::orderBy('label', 'ASC')->get();
-    	$checksArr = $checks->toArray();
-    	$data = array('duplication_checks' => $checksArr);
-    	return $data;
+        $checks = self::orderBy('label', 'ASC')->get();
+        $checksArr = $checks->toArray();
+        $data = array('duplication_checks' => $checksArr);
+        return $data;
     }
 }
