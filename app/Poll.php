@@ -10,6 +10,10 @@ class Poll extends Model
 
     const UPDATED_AT = 'updated';
 
+    protected $dates = array(
+        'published'
+    );
+
     protected $table = 'polls';
 
     public function duplicationCheck()
@@ -24,7 +28,7 @@ class Poll extends Model
 
     public function questions()
     {
-        return $this->hasMany('App\Question', 'polls_id');
+        return $this->hasMany('App\Question', 'polls_id'); // permet plusieurs questions par sondage (peut être utile dans l'avenir)
     }
 
     public function comments()
@@ -32,4 +36,29 @@ class Poll extends Model
         return $this->hasMany('App\Comment', 'polls_id');
     }
 
+    public function render()
+    {
+        $out = array();
+        $out['id'] = $this->id;
+        $out['has_captcha'] = $this->has_captcha;
+        $out['multiple_answers'] = $this->multiple_answers;
+        $out['is_draft'] = $this->is_draft;
+        $out['created'] = !empty($this->created) ? $this->created->timestamp : null;
+        $out['updated'] = !empty($this->updated) ? $this->updated->timestamp : null;
+        $out['published'] = !empty($this->published) ? $this->published->timestamp : null;
+
+        $duplicationCheck = $this->duplicationCheck;
+        $out['duplication_check'] = !empty($duplicationCheck) ? $duplicationCheck->toArray() : array();
+
+        $question = $this->questions->first(); // extrait la première question ("first()" à retirer si on autorise plusieurs questions par sondage)
+        $out['question'] = !empty($question) ? $question->render() : array(); // à modifier si on autorise plusieurs questions par sondage
+
+        $out['comments'] = array();
+        $comments = $this->comments->sortBy('published');
+        foreach ($comments as $comment) {
+            $out['comments'][] = $comment->render();
+        }
+
+        return $out;
+    }
 }

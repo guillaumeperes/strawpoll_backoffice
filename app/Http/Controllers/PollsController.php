@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\DuplicationCheck;
+use App\Poll;
 
 class PollsController extends Controller
 {
@@ -24,6 +25,12 @@ class PollsController extends Controller
 
     public function poll(Request $request)
     {
-
+        $poll = Poll::find($request->poll_id);
+        $out = $poll->render();
+        $headers = array(
+            'Content-Type' => 'application/json; charset=utf-8'
+        );
+        $response = response()->json($out, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return $response;
     }
 }

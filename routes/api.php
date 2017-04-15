@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Http\Middleware\CheckPollExists;
+use App\Http\Middleware\CheckPollIsPublished;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::post('/poll/', 'PollsController@create')
 Route::get('/poll/{poll_id}/', 'PollsController@poll')
     ->where(array('poll_id' => '[1-9][0-9]*'))
     ->middleware(CheckPollExists::class)
+    ->middleware(CheckPollIsPublished::class)
     ->name('poll');
 
 Route::post('/poll/{poll_id}/answers/', 'ResponseController@respond')
