@@ -61,4 +61,9 @@ class Poll extends Model
 
         return $out;
     }
+
+    public function url()
+    {
+        return route('poll', array('poll_id' => $this['id']));
+    }
 }
