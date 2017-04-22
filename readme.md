@@ -76,11 +76,17 @@ Une requête en POST sur cette route permet de créer un sondage. Pour utiliser 
 Les champs suivants sont pris en charge : 
 
 `duplication_check` : entier représentant l'identifiant d'une méthode contrôlant la possibilité pour un visiteur de voter plusieurs fois (**Obligatoire**)
+
 `user` : entier représentant l'identifiant de l'utilisateur conencté qui a créé le sondage (**Optionnel** `null` par défaut)
+
 `has_captcha` : booléen déterminant si le sondage fera usage d'un captcha pour empêcher le spam (**Optionnel** `false` par défaut)
+
 `multiple_answers` : booléen déterminant si un visiteur peut sélectionner plusieurs réponses parmi celles qui lui sont proposées (**Optionnel** `false` par défaut)
+
 `is_draft`: booléen déterminant si le sondage est enregistré en tant que brouillon, ne sera pris en compte que si le sondage a été créé par un utilisateur connecté (**Optionnel** `false` par défaut et si le sondage est créé par un utilisateur non-conencté)
+
 `question` : texte de la question (**Obligatoire**)
+
 `answers` : tableau de réponses textuelles (**Obligatoire** et comportant un minimum de deux réponses)
 
 Exemple d'utilisation avec jQuery: 
