@@ -23,9 +23,9 @@ class Answer extends Model
     public function render()
     {
         $out = array();
-        $out['id'] = $this->id;
-        $out['answer'] = $this->answer;
-        $out['position'] = $this->position;
+        $out['id'] = $this['id'];
+        $out['answer'] = $this['answer'];
+        $out['position'] = $this['position'];
         
         return $out;
     }

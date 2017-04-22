@@ -22,12 +22,11 @@ class Comment extends Model
 
     public function render()
     {
-        $owner = $this->user;
         $out = array();
-        $out['id'] = $this->id;
-        $out['user'] = !empty($owner) ? $owner->username : null;
-        $out['comment'] = $this->comment;
-        $out['published'] = !empty($this->published) ? $this->published->timestamp : null;
+        $out['id'] = $this['id'];
+        $out['user'] = !empty($this['user']) ? $this['user']['username'] : null;
+        $out['comment'] = $this['comment'];
+        $out['published'] = !empty($this['published']) ? $this['published']->timestamp : null;
         
         return $out;
     }

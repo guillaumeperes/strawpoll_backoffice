@@ -18,7 +18,7 @@ class CheckPollIsPublished
     public function handle(Request $request, Closure $next)
     {
         $poll = Poll::find($request->poll_id);
-        if ($poll->is_draft || empty($poll->published)) {
+        if ($poll['is_draft'] || empty($poll['published'])) {
             abort(404, __("Le sondage demandé n'existe pas."));
         }
         return $next($request);

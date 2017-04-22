@@ -39,22 +39,22 @@ class Poll extends Model
     public function render()
     {
         $out = array();
-        $out['id'] = $this->id;
-        $out['has_captcha'] = $this->has_captcha;
-        $out['multiple_answers'] = $this->multiple_answers;
-        $out['is_draft'] = $this->is_draft;
-        $out['created'] = !empty($this->created) ? $this->created->timestamp : null;
-        $out['updated'] = !empty($this->updated) ? $this->updated->timestamp : null;
-        $out['published'] = !empty($this->published) ? $this->published->timestamp : null;
+        $out['id'] = $this['id'];
+        $out['has_captcha'] = $this['has_captcha'];
+        $out['multiple_answers'] = $this['multiple_answers'];
+        $out['is_draft'] = $this['is_draft'];
+        $out['created'] = !empty($this['created']) ? $this['created']->timestamp : null;
+        $out['updated'] = !empty($this['updated']) ? $this['updated']->timestamp : null;
+        $out['published'] = !empty($this['published']) ? $this['published']->timestamp : null;
 
-        $duplicationCheck = $this->duplicationCheck;
+        $duplicationCheck = $this['duplicationCheck'];
         $out['duplication_check'] = !empty($duplicationCheck) ? $duplicationCheck->toArray() : array();
 
-        $question = $this->questions->first(); // extrait la première question ("first()" à retirer si on autorise plusieurs questions par sondage)
+        $question = $this['questions']->first(); // extrait la première question ("first()" à retirer si on autorise plusieurs questions par sondage)
         $out['question'] = !empty($question) ? $question->render() : array(); // à modifier si on autorise plusieurs questions par sondage
 
         $out['comments'] = array();
-        $comments = $this->comments->sortBy('published');
+        $comments = $this['comments']->sortBy('published');
         foreach ($comments as $comment) {
             $out['comments'][] = $comment->render();
         }

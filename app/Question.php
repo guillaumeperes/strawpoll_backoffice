@@ -23,10 +23,10 @@ class Question extends Model
     public function render()
     {
         $out = array();
-        $out['id'] = $this->id;
-        $out['question'] = $this->question;
+        $out['id'] = $this['id'];
+        $out['question'] = $this['question'];
         $out['answers'] = array();
-        $answers = $this->answers->sortBy('position');
+        $answers = $this['answers']->sortBy('position');
         foreach ($answers as $answer) {
             $out['answers'][] = $answer->render();
         }
