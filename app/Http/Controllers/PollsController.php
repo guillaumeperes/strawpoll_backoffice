@@ -18,6 +18,7 @@ class PollsController extends Controller
         $checks = DuplicationCheck::listAllToArray();
         $headers = array(
             'Content-Type' => 'application/json; charset=utf-8',
+            'Access-Control-Allow-Origin' => '*'
         );
         $response = response()->json($checks, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
@@ -86,7 +87,10 @@ class PollsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-            $headers = array('Content-Type' => 'application/json; charset=utf-8');
+            $headers = array(
+                'Content-Type' => 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin' => '*'
+            );
             $content = array(
                 'code' => 500,
                 'error' => "Une erreur s'est produite."
@@ -95,7 +99,10 @@ class PollsController extends Controller
             return $response;
         }
 
-        $headers = array('Content-Type' => 'application/json; charset=utf-8');
+        $headers = array(
+            'Content-Type' => 'application/json; charset=utf-8',
+            'Access-Control-Allow-Origin' => '*'
+        );
         $content = array(
             'code' => 200,
             'message' => 'Le sondage a été enregistré',
@@ -112,7 +119,8 @@ class PollsController extends Controller
         $poll = Poll::find($request->poll_id);
         $out = $poll->render();
         $headers = array(
-            'Content-Type' => 'application/json; charset=utf-8'
+            'Content-Type' => 'application/json; charset=utf-8',
+            'Access-Control-Allow-Origin' => '*'
         );
         $response = response()->json($out, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
