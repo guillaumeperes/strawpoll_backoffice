@@ -17,8 +17,7 @@ class PollsController extends Controller
     {
         $checks = DuplicationCheck::listAllToArray();
         $headers = array(
-            'Content-Type' => 'application/json; charset=utf-8',
-            'Access-Control-Allow-Origin' => '*'
+            'Content-Type' => 'application/json; charset=utf-8'
         );
         $response = response()->json($checks, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
@@ -88,8 +87,7 @@ class PollsController extends Controller
         } catch (Exception $e) {
             DB::rollback();
             $headers = array(
-                'Content-Type' => 'application/json; charset=utf-8',
-                'Access-Control-Allow-Origin' => '*'
+                'Content-Type' => 'application/json; charset=utf-8'
             );
             $content = array(
                 'code' => 500,
@@ -100,8 +98,7 @@ class PollsController extends Controller
         }
 
         $headers = array(
-            'Content-Type' => 'application/json; charset=utf-8',
-            'Access-Control-Allow-Origin' => '*'
+            'Content-Type' => 'application/json; charset=utf-8'
         );
         $content = array(
             'code' => 200,
@@ -119,8 +116,7 @@ class PollsController extends Controller
         $poll = Poll::find($request->poll_id);
         $out = $poll->render();
         $headers = array(
-            'Content-Type' => 'application/json; charset=utf-8',
-            'Access-Control-Allow-Origin' => '*'
+            'Content-Type' => 'application/json; charset=utf-8'
         );
         $response = response()->json($out, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
