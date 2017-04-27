@@ -6,7 +6,7 @@ Ceci est le backoffice de l'application du Strawpoll réalisée par Adam Attafi,
 
 ## Routes
 
-**GET** http://strawpoll.guillaumeperes.fr/api/duplicationchecks
+**GET** https://strawpoll.guillaumeperes.fr/api/duplicationchecks
 
 Une requête en GET sur cette route retournera la liste des méthodes prises en charge par l'api pour contrôler le fait qu'un utilisateur puisse ou non voter plusieurs fois à un sondage. Retourne un objet JSON sous la forme : 
 
@@ -22,7 +22,7 @@ Une requête en GET sur cette route retournera la liste des méthodes prises en 
 }
 ```
 
-**GET** http://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/
+**GET** https://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/
 
 Une requête en GET sur cette route retournera les données associées au sondage identifié par l'entier {poll_id}.
 
@@ -69,7 +69,7 @@ Retourne un objet JSON de la forme :
 }
 ```
 
-**POST** http://strawpoll.guillaumeperes.fr/api/poll/
+**POST** https://strawpoll.guillaumeperes.fr/api/poll/
 
 Une requête en POST sur cette route permet de créer un sondage. Pour utiliser cette route, il faut envoyer les données du sondage dans le corps de la requête HTTP grâce à un formulaire ou sous la forme d'un objet JSON.
 
@@ -129,10 +129,10 @@ En cas d'erreur, la réponse suivante sera retournée :
 
 ## Routes en développement
 
-**POST** http://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+**POST** https://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
 
 Permettra d'ajouter des votes au sondage identifié par {poll_id}.
 
-**GET** http://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+**GET** https://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
 
 Permettra de récupérer les votes du sondage identifié par {poll_id}.
