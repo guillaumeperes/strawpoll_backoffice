@@ -98,6 +98,7 @@ class PollsController extends Controller
             'code' => 200,
             'message' => 'Le sondage a été enregistré',
             'data' => array(
+                'poll_id' => $poll['id'],
                 'redirect' => $poll->url()
             )
         );
