@@ -25,7 +25,6 @@ class Answer extends Model
         $out = array();
         $out['id'] = $this['id'];
         $out['answer'] = $this['answer'];
-        $out['position'] = $this['position'];
         
         return $out;
     }
