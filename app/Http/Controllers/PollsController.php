@@ -60,23 +60,32 @@ class PollsController extends Controller
 
             // Question
             $vquestion = $request->input('question');
-            if (empty($vquestion)) {
+            if (empty($vquestion) || strlen(trim($vquestion)) == 0) {
                 throw new Exception('No question was given');
             }
             $question = new Question();
             $question['polls_id'] = $poll['id'];
-            $question['question'] = $vquestion;
+            $question['question'] = trim($vquestion);
             $question->save();
 
             // Answers
             $vanswers = $request->input('answers');
-            if (empty($vanswers) || !is_array($vanswers) || count($vanswers) < 2) {
-                throw new Exception('Error while creating the answers');
+            if (empty($vanswers) || !is_array($vanswers)) {
+                throw new Exception('Bad format for the given answers');
             }
-            foreach ($vanswers as $i => $vanswer) {
+            $filteredAnswers = array();
+            foreach ($vanswers as $vanswer) {
+                if (strlen(trim($vanswer)) > 0) {
+                    $filteredAnswers[] = trim($vanswer);
+                }
+            }
+            if (count($filteredAnswers) < 2) {
+                throw new Exception('Not enough answers were given (at least 2 are required)');
+            }
+            foreach ($filteredAnswers as $i => $filteredAnswer) {
                 $answer = new Answer();
                 $answer['questions_id'] = $question['id'];
-                $answer['answer'] = $vanswer;
+                $answer['answer'] = $filteredAnswer;
                 $answer['position'] = $i;
                 $answer->save();
             }
