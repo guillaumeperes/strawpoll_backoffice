@@ -30,7 +30,7 @@ class ResponseController extends Controller
             foreach ($answers as $answer) {
                 $vote = new Vote();
                 $vote['answers_id'] = $answer;
-                $vote['ip'] = '192.168.197.73';
+                $vote['ip'] = Request::ip();
                 $vote['cookie'] = '';
                 $vote->save();
             }
@@ -52,7 +52,7 @@ class ResponseController extends Controller
             'message' => "Tout s'est bien déroulé.",
             'data' => array(
                 'redirect' => $poll->results()
-                )
+            )
         );
         $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
