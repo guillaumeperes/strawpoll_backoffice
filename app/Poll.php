@@ -50,8 +50,11 @@ class Poll extends Model
         $duplicationCheck = $this['duplicationCheck'];
         $out['duplication_check'] = !empty($duplicationCheck) ? $duplicationCheck->toArray() : array();
 
-        $question = $this['questions']->first(); // extrait la première question ("first()" à retirer si on autorise plusieurs questions par sondage)
-        $out['question'] = !empty($question) ? $question->render() : array(); // à modifier si on autorise plusieurs questions par sondage
+        $out['questions'] = array();
+        $questions = $this['questions']->sortBy('position');
+        foreach ($questions as $question) {
+            $out['questions'][] = $question->render();
+        }
 
         $out['comments'] = array();
         $comments = $this['comments']->sortBy('published');

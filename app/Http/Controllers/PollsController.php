@@ -58,36 +58,48 @@ class PollsController extends Controller
             }
             $poll->save();
 
-            // Question
-            $vquestion = $request->input('question');
-            if (empty($vquestion) || strlen(trim($vquestion)) == 0) {
-                throw new Exception('No question was given');
+            // Questions and answers
+            $vquestions = $request->input('questions');
+            if (empty($vquestions) || !is_array($vquestions)) {
+                throw new Exception('Bad format for the given questions');
             }
-            $question = new Question();
-            $question['polls_id'] = $poll['id'];
-            $question['question'] = trim($vquestion);
-            $question->save();
-
-            // Answers
-            $vanswers = $request->input('answers');
-            if (empty($vanswers) || !is_array($vanswers)) {
-                throw new Exception('Bad format for the given answers');
-            }
-            $filteredAnswers = array();
-            foreach ($vanswers as $vanswer) {
-                if (strlen(trim($vanswer)) > 0) {
-                    $filteredAnswers[] = trim($vanswer);
+            $filteredQuestions = array();
+            foreach ($vquestions as $vquestion) {
+                if (is_array($vquestion) && !empty($vquestion['question']) && strlen(trim($vquestion['question'])) > 0) {
+                    $filteredQuestions[] = $vquestion;
                 }
             }
-            if (count($filteredAnswers) < 2) {
-                throw new Exception('Not enough answers were given (at least 2 are required)');
+            if (count($filteredQuestions) < 1) {
+                throw new Exception('At least, one question is expected');
             }
-            foreach ($filteredAnswers as $i => $filteredAnswer) {
-                $answer = new Answer();
-                $answer['questions_id'] = $question['id'];
-                $answer['answer'] = $filteredAnswer;
-                $answer['position'] = $i;
-                $answer->save();
+            foreach ($filteredQuestions as $i => $filteredQuestion) {
+                $question = new Question();
+                $question['polls_id'] = $poll['id'];
+                $question['question'] = trim($filteredQuestion['question']);
+                $question['position'] = $i;
+                $question->save();
+
+                // Anwsers
+                if (!is_array($filteredQuestion['answers']) || empty($filteredQuestion['answers'])) {
+                    throw new Exception('No question was given');
+                }
+                $vanswers = $filteredQuestion['answers'];
+                $filteredAnswers = array();
+                foreach ($vanswers as $vanswer) {
+                    if (strlen(trim($vanswer)) > 0) {
+                        $filteredAnswers[] = trim($vanswer);
+                    }
+                }
+                if (count($filteredAnswers) < 2) {
+                    throw new Exception('Not enough answers were given (at least 2 are required)');
+                }
+                foreach ($filteredAnswers as $i => $filteredAnswer) {
+                    $answer = new Answer();
+                    $answer['questions_id'] = $question['id'];
+                    $answer['answer'] = $filteredAnswer;
+                    $answer['position'] = $i;
+                    $answer->save();
+                }
             }
 
             DB::commit();
