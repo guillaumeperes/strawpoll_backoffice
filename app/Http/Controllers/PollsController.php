@@ -10,6 +10,7 @@ use App\Question;
 use App\Answer;
 use App\User;
 use \DB;
+use \Exception;
 
 class PollsController extends Controller
 {
