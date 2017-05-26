@@ -20,12 +20,11 @@ class Answer extends Model
         return $this->hasMany('App\Vote', 'answers_id');
     }
 
-    public function render()
+    public function renderToArray()
     {
         $out = array();
         $out['id'] = $this['id'];
         $out['answer'] = $this['answer'];
-        
         return $out;
     }
 }

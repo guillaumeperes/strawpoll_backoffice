@@ -18,8 +18,7 @@ class CreateTablePolls extends Migration
                 // Columns
                 $table->increments('id');
                 $table->integer('duplication_checks_id');
-                $table->boolean('has_captcha');
-                $table->boolean('multiple_answers')->default(false);
+                $table->boolean('has_captcha')->default(false);
                 $table->integer('users_id')->nullable();
                 $table->boolean('is_draft')->default(false);
                 $table->timestamp('created')->default(DB::raw('now()'));

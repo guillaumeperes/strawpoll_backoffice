@@ -20,15 +20,16 @@ class Question extends Model
     	return $this->hasMany('App\Answer', 'questions_id');
     }
 
-    public function render()
+    public function renderToArray()
     {
         $out = array();
         $out['id'] = $this['id'];
         $out['question'] = $this['question'];
+        $out['multiple_answers'] = $this['multiple_answers'];
         $out['answers'] = array();
         $answers = $this['answers']->sortBy('position');
         foreach ($answers as $answer) {
-            $out['answers'][] = $answer->render();
+            $out['answers'][] = $answer->renderToArray();
         }
         
         return $out;

@@ -20,7 +20,7 @@ class Comment extends Model
         return $this->belongsTo('App\Poll', 'polls_id');
     }
 
-    public function render()
+    public function renderToArray()
     {
         $out = array();
         $out['id'] = $this['id'];

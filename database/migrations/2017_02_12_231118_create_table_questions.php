@@ -19,7 +19,8 @@ class CreateTableQuestions extends Migration
                 $table->increments('id');
                 $table->integer('polls_id');
                 $table->text('question');
-                $table->integer('position')->default('0');
+                $table->boolean('multiple_answers')->default(false);
+                $table->integer('position')->default(0);
 
                 // Constraints
                 $table->foreign('polls_id')

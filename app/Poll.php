@@ -28,7 +28,7 @@ class Poll extends Model
 
     public function questions()
     {
-        return $this->hasMany('App\Question', 'polls_id'); // permet plusieurs questions par sondage (peut être utile dans l'avenir)
+        return $this->hasMany('App\Question', 'polls_id');
     }
 
     public function comments()
@@ -36,12 +36,11 @@ class Poll extends Model
         return $this->hasMany('App\Comment', 'polls_id');
     }
 
-    public function render()
+    public function renderToArray()
     {
         $out = array();
         $out['id'] = $this['id'];
         $out['has_captcha'] = $this['has_captcha'];
-        $out['multiple_answers'] = $this['multiple_answers'];
         $out['is_draft'] = $this['is_draft'];
         $out['created'] = !empty($this['created']) ? $this['created']->timestamp : null;
         $out['updated'] = !empty($this['updated']) ? $this['updated']->timestamp : null;
@@ -53,13 +52,13 @@ class Poll extends Model
         $out['questions'] = array();
         $questions = $this['questions']->sortBy('position');
         foreach ($questions as $question) {
-            $out['questions'][] = $question->render();
+            $out['questions'][] = $question->renderToArray();
         }
 
         $out['comments'] = array();
         $comments = $this['comments']->sortBy('published');
         foreach ($comments as $comment) {
-            $out['comments'][] = $comment->render();
+            $out['comments'][] = $comment->renderToArray();
         }
 
         return $out;
