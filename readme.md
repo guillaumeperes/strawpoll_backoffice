@@ -6,9 +6,11 @@ Ceci est le backoffice de l'application du Strawpoll réalisée par Adam Attafi,
 
 ## Routes
 
-**GET** https://strawpoll.guillaumeperes.fr/api/duplicationchecks
+**GET** https://api.strawpoll.guillaumeperes.fr/api/duplicationchecks
 
-Une requête en GET sur cette route retournera la liste des méthodes prises en charge par l'api pour contrôler le fait qu'un utilisateur puisse ou non voter plusieurs fois à un sondage. Retourne un objet JSON sous la forme : 
+Une requête en GET sur cette route retournera la liste des méthodes prises en charge par l'api pour contrôler le fait qu'un utilisateur puisse ou non voter plusieurs fois à un sondage.
+
+Retourne un objet JSON de la forme :
 
 ```json
 {
@@ -22,7 +24,7 @@ Une requête en GET sur cette route retournera la liste des méthodes prises en 
 }
 ```
 
-**GET** https://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/
+**GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/
 
 Une requête en GET sur cette route retournera les données associées au sondage identifié par l'entier {poll_id}.
 
@@ -32,7 +34,6 @@ Retourne un objet JSON de la forme :
 {
 	"id": 1, 
 	"has_captcha": true,
-	"multiple_answers": true,
 	"is_draft": true,
 	"created": 1492303643,
 	"updated": 1492303643,
@@ -42,66 +43,86 @@ Retourne un objet JSON de la forme :
 		"name": "method name",
 		"label": "human readable method label"
 	},
-	"question": {
-		"id": 1, 
-		"question": "Question title",
-		"answers": [
-			{
-				"id": 1,
-				"answer": "Anwser 1",
-				"position": 0
-			},
-			{
-				"id": 2,
-				"answer": "Anwser 2",
-				"position": 1
-			}
-		]
-	},
-	"comments": [
+	"questions": [
+		{
+			"id": 1,
+			"question": "Title of question 1",
+			"multiple_answers": true,
+			"answers": [
+				{
+					"id": 1,
+					"answer": "Anwser 1",
+				},
+				{
+					"id": 2,
+					"answer": "Anwser 2",
+				}
+			]
+		},
+		{
+			"id": 2,
+			"question": "Title of question 2",
+			"multiple_answers": true,
+			"answers": [
+				{
+					"id": 3,
+					"answer": "Anwser 3",
+				},
+				{
+					"id": 4,
+					"answer": "Anwser 4",
+				}
+			]
+		}
+	],
+	"comments" [
 		{
 			"id": 1,
 			"user": "Mike",
 			"comment": "Comment text",
+			"published": 1492303643
+		},
+		{
+			"id": 2,
+			"user": "Bob",
+			"comment": "Another comment",
 			"published": 1492303643
 		}
 	]
 }
 ```
 
-**POST** https://strawpoll.guillaumeperes.fr/api/poll/
+**POST** https://api.strawpoll.guillaumeperes.fr/api/poll/
 
 Une requête en POST sur cette route permet de créer un sondage. Pour utiliser cette route, il faut envoyer les données du sondage dans le corps de la requête HTTP grâce à un formulaire ou sous la forme d'un objet JSON.
 
 Les champs suivants sont pris en charge : 
 
-`duplication_check` : entier représentant l'identifiant d'une méthode contrôlant la possibilité pour un visiteur de voter plusieurs fois (**Obligatoire**)
-
-`user` : entier représentant l'identifiant de l'utilisateur conencté qui a créé le sondage (**Optionnel** `null` par défaut)
-
-`has_captcha` : booléen déterminant si le sondage fera usage d'un captcha pour empêcher le spam (**Optionnel** `false` par défaut)
-
-`multiple_answers` : booléen déterminant si un visiteur peut sélectionner plusieurs réponses parmi celles qui lui sont proposées (**Optionnel** `false` par défaut)
-
-`is_draft`: booléen déterminant si le sondage est enregistré en tant que brouillon, ne sera pris en compte que si le sondage a été créé par un utilisateur connecté (**Optionnel** `false` par défaut et si le sondage est créé par un utilisateur non-conencté)
-
-`question` : texte de la question (**Obligatoire**)
-
-`answers` : tableau de réponses textuelles (**Obligatoire** et comportant un minimum de deux réponses)
+| Nom du champ        | Type    | Obligatoire              | Description                                                                                  |
+|---------------------|---------|--------------------------|----------------------------------------------------------------------------------------------|
+| `duplication_check` | Integer | Oui                      | Identifiant d'une méthode contrôlant la possibilité pour un visiteur de voter plusieurs fois |
+| `questions`         | Array   | Oui                      | Tableau de questions                                                                         |
+| `user`              | Integer | Non (`null` par défaut)  | Identifiant de l'utilisateur ayant créé le sondage                                           |
+| `has_captcha`       | Boolean | Non (`false` par défaut) | Ajout d'un captcha pour réduire le spam                                                      |
+| `is_draft`          | Boolean | Non (`false` par défaut) | Statut du sondage                                                                            |
 
 Exemple d'utilisation avec jQuery: 
 
 ```javascript
 var data = {
 	"duplication_check": 1,
+	"questions": [
+		{
+			"question": "How are you?",
+			"multiple_answers": false,
+			"answers": ["Fine", "Good enough", "Hungry"]
+		}
+	],
 	"user": 1,
 	"has_captcha": true,
-	"multiple_answers": true,
-	"is_draft": false,
-	"question": "How are you?",
-	"answers": ["Answer1", "Answer2", "Answer3"],
+	"is_draft": false
 };
-$.post("http://strawpoll.guillaumeperes.fr/api/poll/", data, function(result) {
+$.post("https://api.strawpoll.guillaumeperes.fr/api/poll/", data, function(result) {
 	console.log(result);
 });
 ```
@@ -113,7 +134,8 @@ L'exemple ci-dessus va retourner une réponse sous la forme de l'objet JSON suiv
 	"code": 200,
 	"message": "Le sondage a été enregistré",
 	"data": {
-		"redirect": "http://route/vers/le/sondage/"
+		"poll_id": "pollid"
+		"redirect": "https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/"
 	}
 }
 ```
@@ -129,10 +151,10 @@ En cas d'erreur, la réponse suivante sera retournée :
 
 ## Routes en développement
 
-**POST** https://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+**POST** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
 
 Permettra d'ajouter des votes au sondage identifié par {poll_id}.
 
-**GET** https://strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+**GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
 
 Permettra de récupérer les votes du sondage identifié par {poll_id}.
