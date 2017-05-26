@@ -75,7 +75,7 @@ Retourne un objet JSON de la forme :
 			]
 		}
 	],
-	"comments" [
+	"comments": [
 		{
 			"id": 1,
 			"user": "Mike",
@@ -134,7 +134,7 @@ L'exemple ci-dessus va retourner une réponse sous la forme de l'objet JSON suiv
 	"code": 200,
 	"message": "Le sondage a été enregistré",
 	"data": {
-		"poll_id": "pollid"
+		"poll_id": "pollid",
 		"redirect": "https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/"
 	}
 }
