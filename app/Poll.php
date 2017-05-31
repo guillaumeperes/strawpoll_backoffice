@@ -42,9 +42,9 @@ class Poll extends Model
         $out['id'] = $this['id'];
         $out['has_captcha'] = $this['has_captcha'];
         $out['is_draft'] = $this['is_draft'];
-        $out['created'] = !empty($this['created']) ? $this['created']->timestamp : null;
-        $out['updated'] = !empty($this['updated']) ? $this['updated']->timestamp : null;
-        $out['published'] = !empty($this['published']) ? $this['published']->timestamp : null;
+        $out['created'] = !empty($this['created']) ? date('d/m/Y - H:i', $this['created']->timestamp) : null;
+        $out['updated'] = !empty($this['updated']) ? date('d/m/Y - H:i', $this['updated']->timestamp) : null;
+        $out['published'] = !empty($this['published']) ? date('d/m/Y - H:i', $this['published']->timestamp) : null;
 
         $duplicationCheck = $this['duplicationCheck'];
         $out['duplication_check'] = !empty($duplicationCheck) ? $duplicationCheck->toArray() : array();
