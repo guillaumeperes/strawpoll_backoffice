@@ -11,8 +11,8 @@ class DuplicationChecksSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('duplication_checks')->insertGetId(array('name' => 'notcontrolled', 'label' => 'Aucun contrôle'));
-        DB::table('duplication_checks')->insertGetId(array('name' => 'ip', 'label' => 'Contrôle par adresse IP'));
-        DB::table('duplication_checks')->insertGetId(array('name' => 'cookie', 'label' => 'Contrôle par cookie'));
+        DB::table('duplication_checks')->insertGetId(array('name' => 'notcontrolled', 'label' => 'Autoriser plusieurs votes par utilisateur'));
+        DB::table('duplication_checks')->insertGetId(array('name' => 'ip', 'label' => "Restreindre sur la base de l'adresse IP"));
+        DB::table('duplication_checks')->insertGetId(array('name' => 'cookie', 'label' => "Restreindre sur la base d'un cookie"));
     }
 }
