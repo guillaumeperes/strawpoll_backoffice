@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Answer;
-use \DB;
-use \Exception;
-use App\Vote;
 use App\Poll;
+use App\DuplicationCheck;
+use App\Question;
+use App\Answer;
+use App\Vote;
+use \DB;
+use App\Exceptions\RespondPollException;
+use \Exception;
 
 class ResponseController extends Controller
 {
@@ -17,40 +20,64 @@ class ResponseController extends Controller
             DB::beginTransaction();
 
             $poll = Poll::find($request->poll_id);
-            $answers = $request->input("answers");         
-            if(empty($answers)) {
-                throw new Exception('Answers was not found.');
+            $answers = $request->input('answers');
+            if (empty($answers)) {
+                throw new Exception('Answers were not found');
             }
-            foreach ($answers as $answerid) {
-                $answer = Answer::find($answerid);                
-                if(empty($answer)) {
-                    throw new Exception('Answer was not found.');                    
-                }                
+            $questions = array();
+            foreach ($answers as $answerId) {
+                $answer = Answer::find($answerId);
+                if (empty($answer)) {
+                    throw new Exception('Answer was not found');
+                }
+                $question = $answer['question'];
+                if (empty($question)) {
+                    throw new Exception('Question was not found');
+                }
+                $questions[$question['id']][] = $answer['id'];
             }
-            foreach ($answers as $answer) {
-                $vote = new Vote();
-                $vote['answers_id'] = $answer;
-                $vote['ip'] = Request::ip();
-                $vote['cookie'] = '';
-                $vote->save();
+            $pollQuestions = $poll['questions'];
+            foreach ($pollQuestions as $pollQuestion) {
+                if (empty($questions[$pollQuestion['id']])) {
+                    throw new RespondPollException('Vous devez répondre à toutes les questions du sondage');
+                }
+                if (!$pollQuestion['multiple_answers'] && count($questions[$pollQuestion['id']]) > 1) {
+                    throw new RespondPollException('Certaines questions doivent comporter une unique réponse'); // TODO indiquer quelle question
+                }
+                foreach ($questions[$pollQuestion['id']] as $answerId) {
+                    $vote = new Vote();
+                    $vote['answers_id'] = $answerId;
+                    $vote['ip'] = $request->ip();
+                    $vote['cookie'] = '';
+                    $vote->save();
+                }
             }
-
-            DB::commit();
+        } catch (RespondPollException $e) {
+            DB::rollback();
+            $headers = array('Content-Type' => 'application/json; charset=utf-8');
+            $content = array(
+                'code' => 500,
+                'error' => $e->getMessage()
+            );
+            $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            return $response;
         } catch(Exception $e) {
             DB::rollback();
             $headers = array('Content-Type' => 'application/json; charset=utf-8');
             $content = array(
                 'code' => 500,
-                'error' => "Une erreur s'est produite."
+                'error' => "Une erreur s'est produite"
             );
             $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             return $response;            
-        }   
+        }
+        DB::commit();  
         $headers = array('Content-Type' => 'application/json; charset=utf-8');
         $content = array(
             'code' => 200,
-            'message' => "Tout s'est bien déroulé.",
+            'message' => "Votre vote a été sauvegardé avec succès",
             'data' => array(
+                'poll_id' => $poll['id'],
                 'redirect' => $poll->results()
             )
         );
