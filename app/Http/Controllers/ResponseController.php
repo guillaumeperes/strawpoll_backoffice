@@ -20,6 +20,13 @@ class ResponseController extends Controller
             DB::beginTransaction();
 
             $poll = Poll::find($request->poll_id);
+            $duplicationCheck = $poll['duplicationCheck'];
+            if (empty($duplicationCheck)) {
+                throw new Exception('Duplication check was not found');
+            }
+            if (!$duplicationCheck->isVoteAllowed($poll)) {
+                throw new RespondPollException('Vous ne pouvez plus voter à ce sondage');
+            }
             $answers = $request->input('answers');
             if (empty($answers)) {
                 throw new Exception('Answers were not found');
