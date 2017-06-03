@@ -19,6 +19,14 @@ class ResponseController extends Controller
         try{
             DB::beginTransaction();
 
+            $cookie = $request->cookie('strawpoll_cookie');
+            if (empty($cookie)) {
+                $cookie = $request->input('strawpoll_cookie');
+            }
+            if (empty($cookie)) {
+                $cookie = '';
+            }
+
             $poll = Poll::find($request->poll_id);
             $duplicationCheck = $poll['duplicationCheck'];
             if (empty($duplicationCheck)) {
@@ -55,7 +63,7 @@ class ResponseController extends Controller
                     $vote = new Vote();
                     $vote['answers_id'] = $answerId;
                     $vote['ip'] = $request->ip();
-                    $vote['cookie'] = '';
+                    $vote['cookie'] = $cookie;
                     $vote->save();
                 }
             }
