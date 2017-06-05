@@ -11,6 +11,7 @@ use App\Vote;
 use \DB;
 use App\Exceptions\RespondPollException;
 use \Exception;
+use Pheanstalk\Pheanstalk;
 
 class ResponseController extends Controller
 {
@@ -86,7 +87,17 @@ class ResponseController extends Controller
             $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             return $response;            
         }
-        DB::commit();  
+        DB::commit();
+
+        // Job beanstalkd (pour le temps réel)
+        $pheanstalk = new Pheanstalk('127.0.0.1', 11300);
+        $pheanstalk->useTube('strawpoll');
+        $job = array(
+            'channel' => $poll->channel(),
+            'results' => $poll->resultsVotes()
+        );
+        $pheanstalk->put(json_encode($job), 0);
+
         $headers = array('Content-Type' => 'application/json; charset=utf-8');
         $content = array(
             'code' => 200,
