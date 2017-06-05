@@ -32,7 +32,7 @@ Route::post('/poll/{poll_id}/answers/', 'ResponseController@respond')
     ->middleware(CheckPollExists::class)
     ->name('respond');
 
-Route::get('/poll/{poll_id}/answers/', 'ResponseController@answers')
+Route::get('/poll/{poll_id}/results/', 'ResponseController@results')
     ->where(array('poll_id' => '[1-9][0-9]*'))
     ->middleware(CheckPollExists::class)
     ->name('answers');

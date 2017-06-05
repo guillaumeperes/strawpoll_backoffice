@@ -73,4 +73,38 @@ class Poll extends Model
     {
         return route('answers', array('poll_id' => $this['id']));
     }
+
+    public function countVotes() 
+    {
+        $count = 0;
+        foreach ($this['questions'] as $question) {
+            $count += $question->countVotes();
+        }
+        return $count;
+    }
+
+    public function countComments()
+    {
+        return count($this['comments']);
+    }
+
+    public function channel()
+    {
+        return ''; // TODO
+    }
+
+    public function resultsVotes()
+    {
+        $out = array();
+        $out['id'] = $this['id'];
+        $out['duplication_check'] = !empty($this['duplicationCheck']) ? $this['duplicationCheck']->toArray() : array();
+        $out['total_votes'] = $this->countVotes();
+        $out['total_comments'] = $this->countComments();
+        $out['questions'] = array();
+        $questions = $this['questions']->sortBy('position');
+        foreach ($questions as $question) {
+            $out['questions'][] = $question->resultsVotes();
+        }
+        return $out;
+    }
 }

@@ -34,4 +34,28 @@ class Question extends Model
         
         return $out;
     }
+
+    public function countVotes()
+    {
+        $count = 0;
+        foreach ($this['answers'] as $answer) {
+            $count += $answer->countVotes();
+        }
+        return $count;
+    }
+
+    public function resultsVotes()
+    {
+        $out = array();
+        $out['id'] = $this['id'];
+        $out['question'] = $this['question'];
+        $out['answers'] = array();
+        $answers = $this['answers']->sortByDesc(function($answer, $key) {
+            return count($answer['votes']);
+        });
+        foreach ($answers as $answer) {
+            $out['answers'][] = $answer->resultsVotes();
+        }
+        return $out;
+    }
 }

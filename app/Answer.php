@@ -27,4 +27,18 @@ class Answer extends Model
         $out['answer'] = $this['answer'];
         return $out;
     }
+
+    public function countVotes()
+    {
+        return count($this['votes']);
+    }
+
+    public function resultsVotes()
+    {
+        $out = array();
+        $out['id'] = $this['id'];
+        $out['answer'] = $this['answer'];
+        $out['votes'] = $this->countVotes();
+        return $out;
+    }
 }
