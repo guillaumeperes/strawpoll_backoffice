@@ -8,3 +8,4 @@ Homestead.json
 Homestead.yaml
 composer.lock
 .env
+.DS_Store
