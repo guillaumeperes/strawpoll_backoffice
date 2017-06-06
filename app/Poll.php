@@ -90,7 +90,7 @@ class Poll extends Model
 
     public function channel()
     {
-        return ''; // TODO
+        return 'results-poll-'.$this['id'];
     }
 
     public function resultsVotes()

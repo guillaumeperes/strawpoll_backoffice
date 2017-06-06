@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exceptions\RespondPollException;
 use App\Poll;
 use App\DuplicationCheck;
 use App\Question;
 use App\Answer;
 use App\Vote;
 use \DB;
-use App\Exceptions\RespondPollException;
 use \Exception;
 use Pheanstalk\Pheanstalk;
 
@@ -89,7 +89,7 @@ class ResponseController extends Controller
         }
         DB::commit();
 
-        // Job beanstalkd (pour le temps réel)
+        // Création du job beanstalkd pour la diffusion des nouveaux résultats à tous les clients
         $pheanstalk = new Pheanstalk('127.0.0.1', 11300);
         $pheanstalk->useTube('strawpoll');
         $job = array(
