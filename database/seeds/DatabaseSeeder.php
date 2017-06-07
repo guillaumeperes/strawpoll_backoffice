@@ -12,5 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(DuplicationChecksSeeder::class);
+        $this->call(PollsSeeder::class);
+        $this->call(QuestionsSeeder::class);
+        $this->call(AnswersSeeder::class);
     }
 }
