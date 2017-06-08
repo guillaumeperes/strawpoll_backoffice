@@ -11,7 +11,6 @@
 const http = require("http");
 const socketio = require("socket.io");
 const fivebeans = require("fivebeans");
-const axios = require("axios");
 
 const LISTEN_PORT = 5678;
 
