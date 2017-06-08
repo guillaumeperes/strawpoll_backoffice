@@ -155,6 +155,10 @@ En cas d'erreur, la réponse suivante sera retournée :
 
 Permettra d'ajouter des votes au sondage identifié par {poll_id}.
 
-**GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
+**GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/
 
-Permettra de récupérer les votes du sondage identifié par {poll_id}.
+Permettra de récupérer les résultats du sondage identifié par {poll_id}.
+
+***GET*** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/channel/
+
+Permet d'obtenir un channel sur lequel les résultats du sondage identifié par {poll_id} sont mis à jour en temps réel.

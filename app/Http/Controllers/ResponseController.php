@@ -119,8 +119,22 @@ class ResponseController extends Controller
             'code' => 200,
             'message' => '',
             'data' => array(
-                'channel' => $poll->channel(),
                 'results' => $poll->resultsVotes()
+            )
+        );
+        $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return $response;
+    }
+
+    public function channel(Request $request)
+    {
+        $poll = Poll::find($request->poll_id);
+        $headers = array('Content-Type' => 'application/json; charset=utf-8');
+        $content = array(
+            'code' => 200,
+            'message' => '',
+            'data' => array(
+                'channel' => $poll->channel()
             )
         );
         $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
