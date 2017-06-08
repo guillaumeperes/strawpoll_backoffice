@@ -1,0 +1,12 @@
+{
+  "name": "strawpoll_wsserver",
+  "version": "1.0.0",
+  "description": "Websocket server for the strawpoll backoffice",
+  "main": "app.js",
+  "author": "Adam Attafi, Guillaume Peres et Sébastien Verneyre",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "fivebeans": "^1.5.0",
+    "socket.io": "2.0.*"
+  }
+}
