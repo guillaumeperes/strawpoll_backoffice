@@ -8,7 +8,8 @@
 * @authors Adam Attafi, Guillaume Peres et Sébastien Verneyre
 */
 
-const http = require("http");
+const https = require("https");
+const fs = require("fs");
 const socketio = require("socket.io");
 const fivebeans = require("fivebeans");
 const LISTEN_PORT = 5678;
@@ -27,8 +28,12 @@ const warn = function(text) {
 	console.error(out);
 };
 
-// Initialisation du serveur http
-const app = http.createServer().listen(LISTEN_PORT);
+// Initialisation du serveur https
+const options = {
+	"key": fs.readFileSync("/path/to/private/key/file.pem"),
+	"cert": fs.readFileSync("/path/to/cert/file.pem")
+};
+const app = https.createServer(options).listen(LISTEN_PORT);
 log("Http server launched");
 
 // Initialisation de socket.io
