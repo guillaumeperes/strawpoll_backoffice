@@ -158,14 +158,11 @@ Une requête en POST sur cette route permettra d'ajouter des votes au sondage id
 Exemple, retourne un objet JSON de la forme :
 
 ```json
-Var data = {
+{
 	"answers_id": 1,
-	"ip" : 86.218.94.116,
-	"cookie" : j3fwp43o,
+	"ip" : "86.218.94.116",
+	"cookie" : "j3fwp43o",
 } ;
-$.post("https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/",data,function(result) {
-	console.log(result);
-});
 ```
 
 L'exemple ci-dessus va retourner une réponse sous la forme de l'objet JSON suivant :
