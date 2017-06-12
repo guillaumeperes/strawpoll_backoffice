@@ -163,8 +163,8 @@ Var data = {
 	"ip" : 86.218.94.116,
 	"cookie" : j3fwp43o,
 } ;
-$.post(https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/,data,function(result) {
-	Console.log(result);
+$.post("https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/",data,function(result) {
+	console.log(result);
 });
 ```
 
