@@ -153,7 +153,39 @@ En cas d'erreur, la réponse suivante sera retournée :
 
 **POST** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
 
-Permettra d'ajouter des votes au sondage identifié par {poll_id}.
+Une requête en POST sur cette route permettra d'ajouter des votes au sondage identifié par {poll_id}.
+
+Exemple, retourne un objet JSON de la forme :
+
+```json
+{
+	"answers_id": 1,
+	"ip" : "86.218.94.116",
+	"cookie" : "j3fwp43o",
+} ;
+```
+
+L'exemple ci-dessus va retourner une réponse sous la forme de l'objet JSON suivant :
+
+```json
+{
+	"code": 200,
+	"message": "Votre vote a été sauvegardé avec succès",
+	"data": {
+		"poll_id": "pollid",
+		"redirect": "https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/"
+	}
+}
+```
+
+En cas d'erreur, la réponse suivante sera retournée :
+
+```json
+{
+	"code": 500,
+	"error": "Une erreur s'est produite"
+}
+```
 
 **GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/
 
