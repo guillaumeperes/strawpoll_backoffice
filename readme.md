@@ -165,18 +165,9 @@ Exemple, retourne un objet JSON de la forme :
 
 ```json
 {
-	"answers": [
-		{
-			"id": 1,
-			"answer": "Anwser 1",
-		},
-		{
-			"id": 2,
-			"answer": "Anwser 2",
-		}
-	],
-	"cookie" : "j3fwp43o",
-} ;
+    "answers": [1, 2],
+    "cookie" : "j3fwp43o",
+}
 ```
 
 L'exemple ci-dessus va retourner une réponse sous la forme de l'objet JSON suivant :
@@ -201,11 +192,11 @@ En cas d'erreur, la réponse suivante sera retournée :
 }
 ```
 
-## Routes en développement
-
 **GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/
 
 Permettra de récupérer les résultats du sondage identifié par {poll_id}.
+
+## Routes en développement
 
 ***GET*** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/channel/
 
