@@ -149,18 +149,32 @@ En cas d'erreur, la réponse suivante sera retournée :
 }
 ```
 
-## Routes en développement
-
 **POST** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/
 
 Une requête en POST sur cette route permettra d'ajouter des votes au sondage identifié par {poll_id}.
+Pour utiliser cette route, il faut lui envoyer un tableau contenant la liste des réponses pour lesquelles l'utilisateur souhaite voter (answers), ainsi qu'une chaine de caractères facultative contenant la valeur du `strawpoll_cookie` qui sera sauvegardée par l'api (cookie).
+
+Les champs suivants sont pris en charge : 
+
+| Nom du champ        | Type                   | Obligatoire | Description                 |
+|---------------------|------------------------|-------------|-----------------------------|
+| `answers`           | Array                  | Oui         | Tableau des réponses        |
+| `cookie`            | Character varying(255) | Non         | Valeur du `strawpoll_cookie`|      
 
 Exemple, retourne un objet JSON de la forme :
 
 ```json
 {
-	"answers_id": 1,
-	"ip" : "86.218.94.116",
+	"answers": [
+		{
+			"id": 1,
+			"answer": "Anwser 1",
+		},
+		{
+			"id": 2,
+			"answer": "Anwser 2",
+		}
+	],
 	"cookie" : "j3fwp43o",
 } ;
 ```
@@ -173,7 +187,7 @@ L'exemple ci-dessus va retourner une réponse sous la forme de l'objet JSON suiv
 	"message": "Votre vote a été sauvegardé avec succès",
 	"data": {
 		"poll_id": "pollid",
-		"redirect": "https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/answers/"
+		"redirect": "https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/"
 	}
 }
 ```
@@ -186,6 +200,8 @@ En cas d'erreur, la réponse suivante sera retournée :
 	"error": "Une erreur s'est produite"
 }
 ```
+
+## Routes en développement
 
 **GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/
 
