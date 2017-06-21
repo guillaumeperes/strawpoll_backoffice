@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use \Colors\RandomColor;
 
 class CreateTableAnswers extends Migration
 {
@@ -20,6 +21,7 @@ class CreateTableAnswers extends Migration
                 $table->integer('questions_id');
                 $table->text('answer');
                 $table->integer('position')->default(0);
+                $table->string('color', 7);
 
                 // Constraints
                 $table->foreign('questions_id')

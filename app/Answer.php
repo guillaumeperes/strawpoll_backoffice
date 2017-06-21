@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use \Colors\RandomColor;
 
 class Answer extends Model
 {
@@ -40,5 +41,20 @@ class Answer extends Model
         $out['answer'] = $this['answer'];
         $out['votes'] = $this->countVotes();
         return $out;
+    }
+
+    public function assignColor()
+    {
+        $color = RandomColor::one();
+        $free = false;
+        while( $free === false) {
+            $count = self::where('color', '=', $color)->where('questions_id', '=', $this['questions_id'])->count();
+            if($count == 0){
+                $free = true;
+            } else{
+                $color = RandomColor::one();
+            }
+        }
+        return $color;
     }
 }

@@ -106,6 +106,7 @@ class PollsController extends Controller
                     $answer['questions_id'] = $question['id'];
                     $answer['answer'] = $filteredAnswer;
                     $answer['position'] = $j;
+                    $answer['color'] = $answer->assignColor();
                     $answer->save();
                 }
             }
