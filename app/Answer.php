@@ -40,6 +40,7 @@ class Answer extends Model
         $out['id'] = $this['id'];
         $out['answer'] = $this['answer'];
         $out['votes'] = $this->countVotes();
+        $out['color'] = $this['color'];
         return $out;
     }
 
