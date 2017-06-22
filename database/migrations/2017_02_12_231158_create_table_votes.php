@@ -27,6 +27,10 @@ class CreateTableVotes extends Migration
                     ->on('answers')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
+
+                // Index
+                $table->index('ip', 'ip_idx');
+                $table->index('cookie', 'cookie_idx');
             });
         }
     }
