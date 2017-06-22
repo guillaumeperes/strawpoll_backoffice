@@ -29,6 +29,9 @@ class CreateTableAnswers extends Migration
                     ->on('questions')
                     ->onUpdate('cascade')
                     ->onDelete('cascade');
+
+                // Index
+                $table->index('color', 'color_idx');
             });
         }
     }
