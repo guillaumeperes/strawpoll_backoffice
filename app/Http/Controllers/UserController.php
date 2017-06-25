@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Exception\RegisterException;
+use App\Exceptions\RegisterException;
 use App\User;
 use Firebase\JWT\JWT;
 use \Exception;
