@@ -16,9 +16,8 @@ class CreateTableUsers extends Migration
         if (!Schema::hasTable('users')) {
             Schema::create('users', function(Blueprint $table) {
                 $table->increments('id');
-                $table->text('username')->unique();
+                $table->text('email')->unique();
                 $table->text('password');
-                $table->text('salt');
                 $table->jsonb('profile')->nullable();
                 $table->timestamp('created')->default(DB::raw('now()'));
                 $table->timestamp('updated')->nullable();
