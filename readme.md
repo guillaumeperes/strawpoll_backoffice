@@ -261,4 +261,26 @@ Retourne un objet JSON de la forme :
 
 ## Résultats en temps réel
 
-A venir.
+Pour obtenir les résultats d'un sondage en temps réel, les clients doivent se connecter à un serveur de websocket disponible sur l'URL https://api.strawpoll.guillaumeperes.fr/socket.io/ sur le port 443. 
+
+Ils doivent ensuite émettre un évènement de type `join_channel` en précisant le nom du channel qu'ils souhaitent rejoindre. Chaque sondage émettra ses résultats sur un channel différent dont le nom peut être obtenu grâce à l'utilisation de la route https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/channel/ décrite ci-dessus.
+
+Une fois connecté à un channel, les résultats du sondage seront envoyés après chaque nouveau vote par le biais de l'émission d'un évènement `results`.
+
+Exemple d'utilisation avec jQuery et le client socket.io : 
+
+```javascript
+$.getJSON("https://api.strawpoll.guillaumeperes.fr/api/poll/1/results/channel/", function(data) {
+	var channel = data.data.channel;
+	var socketOpts = {
+		"path": "/socket.io"
+	};
+	var socket = io("https://api.strawpoll.guillaumeperes.fr", socketOpts);
+	socket.on("connect", function() {
+		socket.emit("join_channel", channel);
+		socket.on("results", function(results) {
+			console.log("Résultats du sondage : "+results);
+		});
+	});
+});
+```
