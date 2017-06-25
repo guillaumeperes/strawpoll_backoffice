@@ -194,10 +194,71 @@ En cas d'erreur, la réponse suivante sera retournée :
 
 **GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/
 
-Permettra de récupérer les résultats du sondage identifié par {poll_id}.
+Une requête en GET sur cette route retourne les résultats du sondage identifié par l'entier {poll_id}.
 
-## Routes en développement
+Retourne un objet JSON de la forme suivante : 
 
-***GET*** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/channel/
+```json
+{
+	"code": 200,
+	"message": "",
+	"data": {
+		"results": {
+			"id": 1,
+			"duplication_check": {
+				"id": 1,
+				"name": "notcontrolled",
+				"label": "Autoriser plusieurs votes par utilisateur"
+			},
+			"total_votes": 15,
+			"total_comments": 7,
+			"questions": [
+				{
+					"id": 7,
+					"question": "Comment allez-vous ?",
+					"answers": [
+						{
+							"id": 1,
+							"answer": "Très bien",
+							"votes": 6,
+							"color": "#FFFFFF" 
+						},
+						{
+							"id": 2,
+							"answer": "Moyennement bien",
+							"votes": 5,
+							"color": "#FEFEFE",
+						},
+						{
+							"id": 3,
+							"answer": "Pas très bien",
+							"votes": 4,
+							"color": "#000000"
+						}
+					]
+				}
+			]
+		}
+	}
+}
+```
 
-Permet d'obtenir un channel sur lequel les résultats du sondage identifié par {poll_id} sont mis à jour en temps réel.
+**GET** https://api.strawpoll.guillaumeperes.fr/api/poll/{poll_id}/results/channel/
+
+Une requête en GET sur cette route retourne le nom du channel socket.io sur lequel les clients doivent se connecter pour obtenir en temps réel les résultats du sondage identifié par l'entier {poll_id}.
+
+Retourne un objet JSON de la forme : 
+
+```json
+{
+	"code": 200,
+	"message": "",
+	"data": {
+		"channel": "results-poll-1"
+	}
+}
+```
+
+## Résultats en temps réel
+
+A venir.
