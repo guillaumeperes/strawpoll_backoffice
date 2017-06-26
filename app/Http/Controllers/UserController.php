@@ -156,4 +156,25 @@ class UserController extends Controller
         $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
         return $response;
     }
+
+    public function infos(Request $request)
+    {
+        $token = JWT::decode($request->access_token, env('APP_KEY'));
+        $user = User::find($token['id']);
+        $headers = array('Content-Type' => 'application/json; charset=utf-8');
+        $content = array(
+            'status' => 200,
+            'message' => '',
+            'data' => array(
+                'user' => array(
+                    'email' => $user['email'],
+                    'created' => !empty($user['created']) ? date('d/m/Y - H:i', $user['created']) : null,
+                    'updated' => !empty($user['updated']) ? date('d/m/Y - H:i', $user['updated']) : null,
+                    'last_login' => !empty($user['last_login']) ? date('d/m/Y - H:i', $user['last_login']) : null
+                )
+            )
+        );
+        $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return $response;
+    }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use App\Http\Middleware\CheckPollExists;
 use App\Http\Middleware\CheckPollIsPublished;
+use App\Http\Middleware\CheckUserTokenIsValid;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +50,6 @@ Route::post('/register/', 'UserController@register')
 Route::post('/login/', 'UserController@login')
     ->name('login');
 
+Route::get('/user/{access_token}/infos/', 'UserController@infos')
+    ->middleware(CheckUserTokenIsValid::class)
+    ->name('userInfos');
