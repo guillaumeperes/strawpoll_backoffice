@@ -159,7 +159,7 @@ class UserController extends Controller
 
     public function infos(Request $request)
     {
-        $token = (array) JWT::decode($request->access_token, env('APP_KEY'));
+        $token = (array) JWT::decode($request->access_token, env('APP_KEY'), array('HS256'));
         $user = User::find($token['id']);
         $headers = array('Content-Type' => 'application/json; charset=utf-8');
         $content = array(
