@@ -20,7 +20,7 @@ class CheckUserTokenIsValid
     public function handle(Request $request, Closure $next)
     {
         try {
-            $token = JWT::decode($request->access_token, env('APP_KEY'), array('HS256'));
+            $token = (array) JWT::decode($request->access_token, env('APP_KEY'), array('HS256'));
             $user = User::find($token['id']);
             if (empty($user)) {
                 throw new Exception('User not found');
