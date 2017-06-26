@@ -168,9 +168,9 @@ class UserController extends Controller
             'data' => array(
                 'user' => array(
                     'email' => $user['email'],
-                    'created' => !empty($user['created']) ? date('d/m/Y - H:i', $user['created']) : null,
-                    'updated' => !empty($user['updated']) ? date('d/m/Y - H:i', $user['updated']) : null,
-                    'last_login' => !empty($user['last_login']) ? date('d/m/Y - H:i', $user['last_login']) : null
+                    'created' => !empty($user['created']) ? date('d/m/Y - H:i', $user['created']->timestamp) : null,
+                    'updated' => !empty($user['updated']) ? date('d/m/Y - H:i', $user['updated']->timestamp) : null,
+                    'last_login' => !empty($user['last_login']) ? date('d/m/Y - H:i', $user['last_login']->timestamp) : null
                 )
             )
         );
