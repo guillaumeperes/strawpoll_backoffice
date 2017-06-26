@@ -9,6 +9,7 @@ use App\User;
 use Firebase\JWT\JWT;
 use \Exception;
 use \DB;
+use \Hash;
 
 class UserController extends Controller
 {
@@ -16,22 +17,29 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
+
             $email = $request->input('email');
-            $password = $request->input('password');
+            if (empty($email)) {
+                throw new LoginException("Vous n'avez pas renseigné d'identifiant");
+            }
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new LoginException("L'identifiant entré ne correspond pas à une adresse e-mail");
+            }
             $user = User::where('email', '=', $email)->first();
             if (empty($user)) {
                 throw new LoginException("L'identifiant entré ne correspond à aucun utilisateur connu");
             }
-            if(bcrypt($password) !== $user['password']) {
+            $password = $request->input('password');
+            if (empty($password) || !Hash::check($password, $user['password'])) {
                 throw new LoginException('Le mot de passe spécifié est incorrect');
             }
-           // On a un utilisateur avec le bon email et mot de passe
+            // On a un utilisateur avec le bon email et mot de passe
             $token = array(
                 'id' => $user['id'],
                 'iss' => url('/'),
                 'iat' => time(),
                 'nbf' => time(),
-                'exp' => strtotime("next day")
+                'exp' => strtotime('next day')
             );
             $jwt = JWT::encode($token, env('APP_KEY'));
 
@@ -57,9 +65,7 @@ class UserController extends Controller
             $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             return $response;
         }
-
         DB::commit();
-
         $headers = array('Content-Type' => 'application/json; charset=utf-8');
         $content = array(
             'status' => 200,
@@ -136,7 +142,7 @@ class UserController extends Controller
             'iss' => url('/'),
             'iat' => time(),
             'nbf' => time(),
-            'exp' => strtotime("next day")
+            'exp' => strtotime('next day')
         );
         $jwt = JWT::encode($token, env('APP_KEY'));
         $headers = array('Content-Type' => 'application/json; charset=utf-8');

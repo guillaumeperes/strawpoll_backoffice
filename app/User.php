@@ -12,6 +12,8 @@ class User extends Model
 
     protected $table = 'users';
 
+    protected $dates = array('last_login');
+
     public function polls()
     {
         return $this->hasMany('App\Poll', 'users_id');
