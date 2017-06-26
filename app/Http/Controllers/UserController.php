@@ -125,7 +125,8 @@ class UserController extends Controller
             'id' => $user['id'],
             'iss' => url('/'),
             'iat' => time(),
-            'nbf' => time()
+            'nbf' => time(),
+            'exp' => strtotime("next day")
         );
         $jwt = JWT::encode($token, env('APP_KEY'));
         $headers = array('Content-Type' => 'application/json; charset=utf-8');
