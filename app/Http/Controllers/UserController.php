@@ -15,52 +15,61 @@ class UserController extends Controller
     public function login(Request $request)
     {
         try {
-           $email = $request->input('email');
-           $password = $request->input('password');
-           $user = User::where('email', '=', $email)->first();
-           if (empty($user)) {
-               throw new LoginException("L'identifiant entré ne correspond à aucun utilisateur connu");
-           }
-           if (bcrypt($password) !== $user['password']) {
-               throw new LoginException('Le mot de passe spécifié est incorrect');
-           }
+            DB::beginTransaction();
+            $email = $request->input('email');
+            $password = $request->input('password');
+            $user = User::where('email', '=', $email)->first();
+            if (empty($user)) {
+                throw new LoginException("L'identifiant entré ne correspond à aucun utilisateur connu");
+            }
+            if(bcrypt($password) !== $user['password']) {
+                throw new LoginException('Le mot de passe spécifié est incorrect');
+            }
            // On a un utilisateur avec le bon email et mot de passe
-           $token = array(
-               'id' => $user['id'],
-               'iss' => url('/'),
-               'iat' => time(),
-               'nbf' => time(),
-               'exp' => strtotime("next day")
-           );
-           $jwt = JWT::encode($token, env('APP_KEY'));
-       } catch (LoginException $e) {
-           $headers = array('Content-Type' => 'application/json; charset=utf-8');
-           $content = array(
-               'status' => 500,
-               'error' => $e->getMessage(),
-           );
-           $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-           return $response;
-       } catch (Exception $e) {
-           $headers = array('Content-Type' => 'application/json; charset=utf-8');
-           $content = array(
-               'status' => 500,
-               'error' => "Une erreur s'est produite",
-           );
-           $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-           return $response;
-       }
-       $headers = array('Content-Type' => 'application/json; charset=utf-8');
-       $content = array(
-           'status' => 200,
-           'message' => '',
-           'data' => array(
-               'token' => $jwt
-           )
-       );
-       $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-       return $response;
+            $token = array(
+                'id' => $user['id'],
+                'iss' => url('/'),
+                'iat' => time(),
+                'nbf' => time(),
+                'exp' => strtotime("next day")
+            );
+            $jwt = JWT::encode($token, env('APP_KEY'));
 
+            $user['last_login'] = time();
+            $user->save();
+
+        } catch (LoginException $e) {
+            DB::rollback();
+            $headers = array('Content-Type' => 'application/json; charset=utf-8');
+            $content = array(
+                'status' => 500,
+                'error' => $e->getMessage(),
+            );
+            $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            return $response;
+        } catch (Exception $e) {
+            DB::rollback();
+            $headers = array('Content-Type' => 'application/json; charset=utf-8');
+            $content = array(
+                'status' => 500,
+                'error' => "Une erreur s'est produite",
+            );
+            $response = response()->json($content, 500, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            return $response;
+        }
+
+        DB::commit();
+
+        $headers = array('Content-Type' => 'application/json; charset=utf-8');
+        $content = array(
+            'status' => 200,
+            'message' => '',
+            'data' => array(
+                'token' => $jwt
+            )
+        );
+        $response = response()->json($content, 200, $headers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+        return $response;
     }
 
     public function register(Request $request) 
@@ -98,6 +107,7 @@ class UserController extends Controller
             $user = new User();
             $user['email'] = $email;
             $user['password'] = bcrypt($password);
+            $user['last_login'] = time();
             $user->save();
             
         } catch (RegisterException $e) {

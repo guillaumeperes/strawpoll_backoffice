@@ -21,6 +21,7 @@ class CreateTableUsers extends Migration
                 $table->jsonb('profile')->nullable();
                 $table->timestamp('created')->default(DB::raw('now()'));
                 $table->timestamp('updated')->nullable();
+                $table->timestamp('last_login')->nullable();
             });
         }
     }
