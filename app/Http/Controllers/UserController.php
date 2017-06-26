@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exceptions\RegisterException;
-use App\Exception\LoginException;
+use App\Exceptions\LoginException;
 use App\User;
 use Firebase\JWT\JWT;
 use \Exception;
