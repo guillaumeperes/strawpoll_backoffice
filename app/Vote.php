@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-    public $timestamps = false;
-
+	const CREATED_AT = 'created';
+	
     protected $table = 'votes';
 
     public function answer()

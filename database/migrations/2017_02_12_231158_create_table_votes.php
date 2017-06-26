@@ -20,6 +20,7 @@ class CreateTableVotes extends Migration
                 $table->integer('answers_id');
                 $table->ipAddress('ip');
                 $table->string('cookie');
+                $table->timestamp('created')->default(DB::raw('now()'));
 
                 // Constraints
                 $table->foreign('answers_id')
