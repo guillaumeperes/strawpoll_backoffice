@@ -46,3 +46,6 @@ Route::get('/poll/{poll_id}/results/channel/', 'ResponseController@channel')
 Route::post('/register/', 'UserController@register')
     ->name('register');
 
+Route::post('/login/', 'UserController@login')
+    ->name('login');
+
