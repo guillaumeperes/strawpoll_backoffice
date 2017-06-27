@@ -8,6 +8,8 @@ class Comment extends Model
 {
     const CREATED_AT = 'published';
 
+    const UPDATED_AT = null;
+
     protected $table = 'comments';
 
     public function user()
