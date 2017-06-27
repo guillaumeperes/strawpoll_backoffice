@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vote extends Model
 {
-		const CREATED_AT = 'created';
+    const CREATED_AT = 'created';
 
-		const UPDATED_AT = null;
-	
+    const UPDATED_AT = null;
+  
     protected $table = 'votes';
 
     public function answer()
